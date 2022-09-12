@@ -1,0 +1,9 @@
+def lonelyinteger(a):
+    lst = [0] * (max(a) + 1)
+    for i in range(len(lst)): 
+        for j in a: 
+            if i == j: 
+                lst[i] += 1
+    for k in range(len(lst)): 
+        if lst[k] == 1: 
+            return k
