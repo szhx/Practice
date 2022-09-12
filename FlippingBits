@@ -1,0 +1,15 @@
+def flippingBits(n): 
+    bi = bin(n) 
+    lst = ["0"] * (32 - len(bi) + 2) + list(bi)[2:] 
+    c = ""
+    for i in range(len(lst)): 
+        if lst[i] == "0": 
+            c += "1"
+        elif lst[i] == "1": 
+            c += "0" 
+    c = list(c) 
+    c.reverse() 
+    ans = 0
+    for j in range(len(c)): 
+        ans += int(c[j]) * 2 ** j 
+    return ans
