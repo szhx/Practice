@@ -1,0 +1,7 @@
+def matchingStrings(strings, queries):
+    ans = [0] * len(queries) 
+    for i in range(len(queries)): 
+        for j in range(len(strings)): 
+            if queries[i] == strings[j]: 
+                ans[i] += 1
+    return ans
