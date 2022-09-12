@@ -1,0 +1,16 @@
+def plusMinus(arr):
+    n = len(arr) 
+    pos = 0 
+    neg = 0 
+    zero = 0
+    for i in arr:
+        if i > 0: 
+            pos += 1 
+        elif i < 0: 
+            neg += 1 
+        elif i == 0: 
+            zero += 1 
+    per_pos = round(pos/n, 6) 
+    per_neg = round(neg/n, 6)
+    per_zero = round(zero/n, 6)
+    print(f"{per_pos}\n{per_neg}\n{per_zero}\n")
