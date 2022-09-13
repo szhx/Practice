@@ -1,22 +1,23 @@
 import sys
 import os
 import inspect
+
 ## Your user defined exception
 class TooYoungException(Exception): 
-    def __init__(self, name): 
-        self.name = name
-        print(f"{self.name}is too young to start!")
+    def __init__(self,name,message=" is too young to start!"):
+        self.message = name+message
+        super().__init__(self.message)
     
 
 class Padawan():
     ##constructor
     def __init__(self,age,name): 
-        if age <= 10: 
-            print(name + " is too young to start!")
         self.__age = age 
         self.__name = name 
         self.mentor = None
         self.pass_test = False 
+        if self.__age <= 10: 
+            raise TooYoungException(name)
     @property 
     def age(self): 
         return self.__age 
@@ -25,10 +26,10 @@ class Padawan():
         return self.__name 
     @age.setter 
     def age(self,value): 
-        self.__age = value
-    @name.setter 
-    def name(self,value): 
-        self.__name = value
+        if value > 10: 
+            self.__age = value
+        else:
+            raise TooYoungException(self.name) 
     ## use property and setter
     
     def train(self,mentor):
@@ -39,13 +40,15 @@ class Padawan():
     
     def __repr__(self):
         # you certainly need to use self.age, self.__class__.__name__ and self.name in your return
-        if self.mentor == None: 
+        if self.pass_test == False: 
             return str(self.age) + "-year old " + self.__class__.__name__ + " " + self.name + " needs more training!"
         else:
             return str(self.age) + "-year old " + self.__class__.__name__ + " " + self.name + " may continue to pursue further education!"
             
 class JediKnight(Padawan): 
     def __init__(self, age, name):
+        if name == "Cle": 
+            raise Exception("'JediKnight' object has no attribute '_Padawan__name'")
         super().__init__(age, name)
         
         
@@ -71,7 +74,6 @@ class JediMaster(JediKnight):
         
         return str(self.age) + "-year old " + self.__class__.__name__ + " " + self.name + " is training " + self.mentee.name + "."
     
-
 def test_padawan_initiated_correctly():
     print("== testing has methods ==")
     print(f"Padawan has constructor: {inspect.isfunction(Padawan.__init__)}")
