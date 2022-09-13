@@ -1,0 +1,78 @@
+# 1 
+# Create a random list which elements add to 0
+def mylist1(length):
+    lst = [i for i in range(length - 1)] 
+    n = 0 - sum(lst) 
+    lst.append(n)
+    return lst
+
+# 2
+# parameters mylist,l,r are given you as a string
+# you need to return a list of integers 
+class ElementNotFound(Exception): 
+    def __init__(self):
+        print("element is not found") 
+class ElementReversed(Exception): 
+    def __init__(self): 
+        print("elements are reversed")
+def mylist2(mylist,l,r): 
+    l = int(l) 
+    r = int(r)
+    mylist = mylist.split(", ") 
+    for i in range(len(mylist)): 
+        mylist[i] = int(mylist[i])
+    if l not in mylist: 
+        raise ElementNotFound()
+    elif r not in mylist: 
+        raise ElementNotFound()
+    for i in range(len(mylist)): 
+        if mylist[i] == l: 
+            indl = i 
+        elif mylist[i] == r: 
+            indr = i
+    c = []
+    if indr < indl: 
+        raise ElementReversed()
+    elif indr == indl + 1: 
+        return mylist 
+    else: 
+        for i in mylist[:indl+1]: 
+            c.append(i) 
+        for j in mylist[indr:]: 
+            c.append(j)
+        return c
+
+
+# 3 
+def mydict(dic,n): 
+    if dic == {}: 
+        raise Exception() 
+    maxkey = max(dic.keys()) 
+    del dic[maxkey] 
+    for i in dic.keys(): 
+        dic[i] = dic[i][:n] + dic[i][n+1:]
+    dic = {k: v for k, v 
+    in sorted(dic.items(), key=lambda item: sum(item[1]), reverse = True)}  
+    for key, val in dic.items(): 
+        print(f"key:{key},value:{val}") 
+    
+            
+# parameter listsofint is a string of comma separated lists of ints, 
+# two lists are separated by a semicolon
+# example: "1,2,3;3,4,5;3,4,7"
+# return the sorted intersection as a list
+def findintersection(listsofint):
+    lst1 = str.split(listsofint, ";") 
+    lst2 = []
+    for i in range(len(lst1)): 
+        lst2.append(lst1[i].split(",")) 
+    for i in range(len(lst2)): 
+        for j in range(len(lst2[i])): 
+            lst2[i][j] = int(lst2[i][j]) 
+    l = 0 
+    intersection = lst2[0]
+    while l < len(lst2): 
+        intersection = list(set(intersection) & set(lst2[l]))
+        l += 1 
+    list.sort(intersection)
+    return intersection
