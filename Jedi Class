@@ -1,0 +1,199 @@
+import sys
+import os
+import inspect
+## Your user defined exception
+class TooYoungException(Exception): 
+    def __init__(self, name): 
+        self.name = name
+        print(f"{self.name}is too young to start!")
+    
+
+class Padawan():
+    ##constructor
+    def __init__(self,age,name): 
+        if age <= 10: 
+            print(name + " is too young to start!")
+        self.__age = age 
+        self.__name = name 
+        self.mentor = None
+        self.pass_test = False 
+    @property 
+    def age(self): 
+        return self.__age 
+    @property
+    def name(self): 
+        return self.__name 
+    @age.setter 
+    def age(self,value): 
+        self.__age = value
+    @name.setter 
+    def name(self,value): 
+        self.__name = value
+    ## use property and setter
+    
+    def train(self,mentor):
+        ## see description for details 
+        print("taking more and more training...\ntraining complete") 
+        self.mentor = mentor
+        self.pass_test = True
+    
+    def __repr__(self):
+        # you certainly need to use self.age, self.__class__.__name__ and self.name in your return
+        if self.mentor == None: 
+            return str(self.age) + "-year old " + self.__class__.__name__ + " " + self.name + " needs more training!"
+        else:
+            return str(self.age) + "-year old " + self.__class__.__name__ + " " + self.name + " may continue to pursue further education!"
+            
+class JediKnight(Padawan): 
+    def __init__(self, age, name):
+        super().__init__(age, name)
+        
+        
+class JediMaster(JediKnight):
+    ##constructor
+    def __init__(self,age,name,padawan):
+        super().__init__(age,name) 
+        self.mentee = padawan 
+        self.pass_test = True
+    
+    def train(self):
+        ## see description for details
+        # self.mentee.mentor
+        # print
+        # self.mentee.pass_test
+        self.mentee.mentor = self
+        print("giving more and more training ...\ntraining complete") 
+        self.mentee.pass_test = True
+        
+    def __repr__(self):
+        # you certainly need to use self.age, self.__class__.__name__ ,self.name and self.mentee.name 
+        # in your return
+        
+        return str(self.age) + "-year old " + self.__class__.__name__ + " " + self.name + " is training " + self.mentee.name + "."
+    
+
+def test_padawan_initiated_correctly():
+    print("== testing has methods ==")
+    print(f"Padawan has constructor: {inspect.isfunction(Padawan.__init__)}")
+    Cle = Padawan(23,"Cle")
+    print("== testing has attributes ==")
+    print(f"Padawan has attribute age: {hasattr(Cle, 'age')}")
+    print(f"Padawan has attribute name: {hasattr(Cle, 'name')}")
+    print(f"Padawan has attribute mentor: {hasattr(Cle, 'mentor')}")
+    print(f"Padawan has attribute pass_test: {hasattr(Cle, 'pass_test')}")
+    print("== testing attribute values == ")
+    print(f"Padawan.age == 23: {Cle.age == 23}")
+    print(f"Padawan.mentor == None: {Cle.mentor == None}")
+    print(f"Padawan.name == Cle: {Cle.name == 'Cle'}")
+    print(f"Padawan.pass_test == False: {Cle.pass_test == False}")
+
+def test_padawan_private_attribute():
+    Cle = Padawan(23,"Cle")
+    print(Cle.__dict__ == {'_Padawan__age': 23, '_Padawan__name': 'Cle', 'mentor': None, 'pass_test': False})
+
+def test_jediknight_initiated_correctly():
+    print(f"JediKnight is of type Padawan: {issubclass(JediKnight, Padawan)}")
+    A = JediKnight(15,"A")
+    print(A.__dict__ =={ '_Padawan__age': 15, '_Padawan__name': 'A', 'mentor': None, 'pass_test': False})
+
+def test_getters_and_setters():
+    Cle = Padawan(23,"Cle")
+    Luke = Padawan(20,"Luke")
+    Cle.age = 22
+    print(f"Padawan.age == 22: {Cle.age == 22}")
+    try:
+        Cle.age = 10
+        print("nonono!")
+    except Exception as e:
+        print(e)
+    try:
+        Luke.age = 10
+        print("nonono!")
+    except Exception as e:
+        print(e)
+    try:
+        Cle = JediKnight(3,"Cle")
+        print("nonono!")
+    except Exception as e:
+        print(e)
+
+def test_jedimaster_initiated_correctly():
+    Cle = Padawan(23,"Cle")
+    Seb = JediMaster(1000,"Seb",Cle)
+    print(f"JediMaster has attribute age: {hasattr(Seb, 'age')}")
+    print(f"JediMaster has attribute name: {hasattr(Seb, 'name')}")
+    print(f"JediMaster has attribute mentor: {hasattr(Seb, 'mentor')}")
+    print(f"JediMaster has attribute pass_test: {hasattr(Seb, 'pass_test')}")
+    print(f"JediMaster has attribute mentee: {hasattr(Seb, 'mentee')}")
+    print("== testing attribute values == ")
+    print(f"JediMaster.age == 1000: {Seb.age == 1000}")
+    print(f"JediMaster.name == Seb: {Seb.name == 'Seb'}")
+    print(f"JediMaster.mentor == None: {Seb.mentor == None}")
+    print(f"JediMaster.pass_test == True: {Seb.pass_test == True}")
+    print(f"JediMaster.mentee is a Padawan: {isinstance(Seb.mentee, Padawan)}")
+
+# test train
+def test_padawan_train():
+    Luke = Padawan(11,"Luke")
+    Yoda = JediMaster(1000,"Yoda",Luke)
+    print("before training:")
+    print(f"Padawan.mentor == None: {Luke.mentor == None}")
+    print(f"Padawan.pass_test == False: {Luke.pass_test == False}")
+    Luke.train(Yoda)
+    print("after training:")
+    print(f"Padawan has mentor JediMaster: {isinstance(Luke.mentor, JediMaster)}")
+    print(f"Padawan.pass_test == True: {Luke.pass_test == True}")
+
+
+def test_jedimaster_train():
+    A = JediKnight(15,"A")
+    B = JediMaster(35,"B",A)
+    print("before training:")
+    print(f"JediKnight.mentor == None: {A.mentor == None}")
+    print(f"JediKnight.pass_test == False: {A.pass_test == False}")
+    B.train()
+    print("after training:")
+    print(f"JediKnight has mentor JediMaster: {isinstance(A.mentor, JediMaster)}")
+    print(f"JediKnight.pass_test == True: {A.pass_test == True}")
+
+
+def test_jediknight_train():
+    # test inheritance
+    print(Padawan.train == JediKnight.train)
+
+#repr
+def test_padawan_repr():
+    Cle = Padawan(23,"Cle")
+    print(Cle)
+    Seb = JediMaster(1000,"Seb",Cle)
+    Cle.train(Seb)
+    print(Cle)
+
+def test_jedimaster_repr1():
+    print("before training:~~~~~~~~~~~~~~~~")
+    Luke = JediKnight(12,"Luke")
+    print(Luke)
+    Yoda = JediMaster(100,"Yoda",Luke)
+    print(Yoda)
+    Yoda.train()
+    print("after training:~~~~~~~~~~~~~~~~~")
+    print(Luke)
+
+def test_jedimaster_repr2():
+    print("before training:~~~~~~~~~~~~~~~~")
+    Cle = Padawan(23,"Cle")
+    print(Cle)
+    Seb = JediMaster(1000,"Seb",Cle)
+    print(Seb)
+    Seb.train()
+    print("after training:~~~~~~~~~~~~~~~~~")
+    print(Cle)
+
+def test_jediknight_repr():
+    # test inheritance
+    print(Padawan.__repr__ == JediKnight.__repr__)
+
+if __name__ == '__main__':
+    func_name = sys.stdin.readline().strip()
+    test_func = globals()[func_name]
+    test_func()
