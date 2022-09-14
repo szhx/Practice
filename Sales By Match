@@ -1,0 +1,11 @@
+def sockMerchant(n, ar):
+    c = [0] * (max(ar) + 1) 
+    for i in range(n): 
+        for j in range(len(c)): 
+            if ar[i] == j: 
+               c[j] += 1 
+    print(c)
+    ans = 0
+    for k in c: 
+        ans += k//2
+    return ans
