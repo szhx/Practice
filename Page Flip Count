@@ -1,0 +1,18 @@
+def pageCount(n, p): 
+    if n % 2 == 0: 
+        n += 1
+    flip_front = 0  
+    page_front = 1
+    while page_front < p: 
+        page_front += 2
+        flip_front += 1 
+    flip_end = 0
+    page_end = n - 1
+    while page_end > p: 
+        page_end -= 2 
+        flip_end += 1
+    print(page_front, page_end)
+    if flip_end > flip_front: 
+        return flip_front
+    elif flip_end <= flip_front: 
+        return flip_end
