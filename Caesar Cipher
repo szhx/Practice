@@ -1,0 +1,24 @@
+def caesarCipher(s, k):
+    dic1 = list(str(string.ascii_lowercase))
+    dic2 = list(str(string.ascii_uppercase))
+    s = list(s) 
+    for i in range(len(s)): 
+        for j in range(26): 
+            if s[i] == dic1[j]: 
+                if j+k%26 > 25: 
+                    s[i] = dic1[j+k%26-26] 
+                    break
+                else: 
+                    s[i] = dic1[j+k%26] 
+                    break
+            elif s[i] == dic2[j]: 
+                if j+k%26 > 25: 
+                    s[i] = dic2[j+k%26-26] 
+                    break
+                else: 
+                    s[i] = dic2[j+k%26] 
+                    break
+    ans = ""
+    for i in range(len(s)): 
+        ans += s[i] 
+    return ans
