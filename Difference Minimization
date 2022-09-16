@@ -1,0 +1,10 @@
+# Create a list of size n from the original array and its max-min is minimized
+
+def maxMin(k, arr): 
+    arr = sorted(arr)
+    n = len(arr) 
+    a = max(arr)
+    for i in range(n-k+1): 
+        if arr[i + k - 1] - arr[i] < a: 
+            a = arr[i + k - 1] - arr[i]
+    return a
