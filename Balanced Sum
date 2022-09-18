@@ -1,0 +1,10 @@
+def balancedSums(arr):
+    f, b = 0, sum(arr) - arr[0] 
+    n = len(arr) 
+    for i in range(n): 
+        if f < b: 
+            f += arr[i] 
+            b -= arr[i+1] 
+        elif f == b: 
+            return "YES" 
+    return "NO"
