@@ -1,0 +1,27 @@
+import math
+
+def counterGame(n):
+    if n == 1: 
+        return "Richard" 
+    winner = 0
+    while n > 1: 
+        if powerof2(n) == True: 
+            n = int(n/2) 
+            winner += 1
+        else: 
+            x = 1
+            while 2 ** x < n: 
+                x += 1
+            n = int(n - 2 ** (x - 1)) 
+            winner += 1
+            print(n)
+    if winner % 2 == 0: 
+        return "Richard" 
+    else: return "Louise"
+
+def powerof2(n): 
+    x = math.log(n) / math.log(2) 
+    if math.ceil(x) == math.floor(x): 
+        return True 
+    else: 
+        return False
