@@ -1,0 +1,6 @@
+def sumXor(n):
+    b = bin(n)[2:]
+    return 2 ** b.count('0') if n != 0 else 1 
+    
+
+# The difference between + and xor is when N has 1, XOR has 0 makes it 0 while + has 0 makes it 1. 
